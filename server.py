@@ -17,6 +17,8 @@ class HappyElement(TextElement):
         return "Happy agents: " + str(model.happy)
 
 
+
+
 def schelling_draw(agent):
     """
     Portrayal Method for canvas
@@ -35,21 +37,22 @@ def schelling_draw(agent):
 
 
 happy_element = HappyElement()
-canvas_element = CanvasGrid(schelling_draw, 20, 20, 500, 500)
-happy_chart = ChartModule([{"Label": "happy", "Color": "Black"}])
+canvas_element = CanvasGrid(schelling_draw, 30, 30, 500, 500)
+happy_chart = ChartModule([{"Label": "happy", "Color": "Green"}])
+cluster_chart = ChartModule([{"Label": "cluster_count", "Color": "Blue"},{"Label": "cluster_size_avarage", "Color": "Purple"}])
 
 model_params = {
-    "height": 20,
-    "width": 20,
-    "density": UserSettableParameter("slider", "Agent density", 0.8, 0.1, 1.0, 0.1),
+    "height": 30,
+    "width": 30,
+    "density": UserSettableParameter("slider", "Agent density", 0.7, 0.1, 1.0, 0.1),
     "minority_pc": UserSettableParameter(
-        "slider", "Fraction minority", 0.2, 0.00, 1.0, 0.05
+        "slider", "Fraction minority", 0.2, 0.00, 0.5, 0.05
     ),
     "homophily": UserSettableParameter("slider", "Homophily", 3, 1, 8, 1),
-    "adversity": UserSettableParameter("slider", "Adversity", 0.05, 0.0, 0.2, 0.01), ## adiciona slider de advercity.
-    "distaste": UserSettableParameter("checkbox", "Distaste",value = True),          ## adiciona checkbos de distaste.
+    #"adversity": UserSettableParameter("slider", "Adversity", 0, 0.0, 0.2, 0.01), ## adiciona slider de advercity.
+    "distaste": UserSettableParameter("slider", "Distaste",1,0,2,0.25),          ## adiciona checkbos de distaste.
 }
 
 server = ModularServer(
-    Schelling, [canvas_element, happy_element, happy_chart], "Schelling", model_params
+    Schelling, [canvas_element, happy_element, cluster_chart, happy_chart], "Schelling", model_params
 )
